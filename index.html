@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;900&family=Roboto&family=Sacramento&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalcForYou</title>
+    <style>
+        body{
+            font-family: 'Montserrat', sans-serif;
+            font-size: large;
+        }
+        /* .inputarea{
+            position: absolute;
+            left: 5%;
+            top: 10%;
+        } */
+        .in{
+
+            font-family: 'Roboto', sans-serif;
+            width: 100%;
+            height: 25px;
+
+        }
+        #btn{
+            position: relative;
+            font-family: 'Montserrat', sans-serif;
+            font-size: large;
+            width: 70%;
+            padding: 5px 10px;
+            background-color: green;
+            border-color: green;
+            color: white;
+        }
+        .test{
+            display: inline-block;
+            width: 150px;
+            height: 150px;
+            background-color: aqua;
+        }
+
+        .flex-container {
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+
+}  
+
+.flex-child:first-child {
+    margin-right: 20px;
+} 
+
+
+    </style>
+    <script>
+        function computeQtyLot()
+        {
+            var table = document.getElementById("myTable");
+            table.innerHTML="";
+            var type = document.getElementById("type").value;
+            var incr = parseInt(document.getElementById("inc").value);
+            var totamt = parseInt(document.getElementById("totamount").value);
+            var amtqty = parseInt(document.getElementById("amtperqty").value);
+            var numqty = Math.floor(totamt/amtqty);
+            var num_lots = 0;
+            document.getElementById("qty").innerHTML = numqty;
+            var numlots = 0;
+            var i = 0;
+            var start = amtqty - 20; // 180
+            var next = start + incr; //185
+            var header = table.insertRow(0);
+            var c1 = header.insertCell(0);
+            var c2 = header.insertCell(1);
+            var c3 = header.insertCell(2);
+            c1.innerHTML = "RANGE";
+            c2.innerHTML = "NUM_QTY";
+            c3.innerHTML = "NUM_LOTS";
+            //alert("type: "+type+" incr: "+incr+" totamt: "+totamt+" amtqty: "+amtqty+" start: "+start+" next: "+next);
+            if(type=="bn")
+            {
+                num_lots = Math.floor(numqty/25);
+                for(i=0;i<(20/incr)*2;i++)
+                {
+                    //alert("Entered for loop");
+                    var st = start.toString() + " - " + next.toString();
+                    var mid = (start+next)/2;
+                    numqty = Math.floor(totamt/mid);
+                    numlots = Math.floor(numqty/25);
+                    
+                    var row = table.insertRow(i+1);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    cell1.innerHTML = st;
+                    cell2.innerHTML = numqty.toString();
+                    cell3.innerHTML = numlots.toString();
+
+                    start = next;
+                    next = next + incr;
+                }
+            }
+            else
+            {
+                num_lots = Math.floor(numqty/40);
+                for(i=0;i<(20/incr)*2;i++)
+                {
+                    //alert("Entered for loop");
+                    var st = start.toString() + " - " + next.toString();
+                    var mid = (start+next)/2;
+                    numqty = Math.floor(totamt/mid);
+                    numlots = Math.floor(numqty/40);
+                    
+                    var row = table.insertRow(i+1);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    cell1.innerHTML = st;
+                    cell2.innerHTML = numqty.toString();
+                    cell3.innerHTML = numlots.toString();
+
+                    start = next;
+                    next = next + incr;
+                }
+            }
+            document.getElementById("lots").innerHTML = num_lots;
+
+        }
+    </script>
+</head>
+<body>
+
+    <div class="flex-container">
+
+        <div class="flex-child inputarea">
+            <h2>LOT-QUANTITY CALCULATOR</h2>
+            <table border = '0'cellpadding = "20px">
+                <tr>
+                <td><label for = "type">Select Type: </label></td>
+                <td>
+                <select class = "in" name = "type" id="type">
+                <option value = "bn">Banknifty</option>  
+                <option value = "fn">Finnifty</option>  
+                </select> 
+                </td></tr>
+                <tr><td><label for="totamount">Total Amount: </label></td><td><input class = "in" type="text" name = "totamount" id = "totamount"></td></tr>
+                <tr><td><label for="amtperqty">Amount per quantity: </label></td><td><input class = "in" type="text" name = "amtperqty" id = "amtperqty"></td></tr>  
+                <tr>
+                    <td><label for = "inc">Select Increment: </label></td>
+                    <td>
+                    <select class = "in" name = "inc" id="inc">
+                    <option value = "5">Increment by 5</option>  
+                    <option value = "10">Increment by 10</option>  
+                    </select> 
+                    </td></tr>
+            </table>
+            <br>
+    
+            <button id = "btn" onclick="computeQtyLot()">CALCULATE</button>  
+
+            <hr style = "width: 75%; margin-left: 0;">
+        <table border = '0' cellspacing= "15px">
+            <tr>
+                <td><p>Number of Quantities: </p></td>
+                <td><p id = "qty" ></p></td>
+            </tr>
+            <tr>
+                <td><p>Number of Lots: </p></td>
+                <td><p id = "lots"></p></td>
+            </tr>
+        </table>
+        </div>
+        
+        <div class="flex-child">
+            <table id = "myTable" border="1" cellpadding = "10px">
+                <tr>
+                <th>RANGE</th>
+                <th>NUM_QTY</th>
+                <th>NUM_LOTS</th>
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+
+
+
+    
+    
+    
+</body>
+</html>
